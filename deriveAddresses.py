@@ -3,12 +3,12 @@ import binascii
 from bip_utils import Bip39EntropyGenerator, Bip39MnemonicGenerator, Bip39WordsNum, Bip39EntropyBitLen, Bip39SeedGenerator, Bip32, Bip44, Bip44Coins, Bip44Changes, P2PKH, P2SH, P2WPKH
 from bitcoinutils.setup import setup
 from bitcoinutils.script import Script
-from bitcoinutils.keys import P2wpkhAddress, P2wshAddress, P2shAddress, PrivateKey, PublicKey
+from bitcoinutils.keys import P2wpkhAddress, P2shAddress, PrivateKey, PublicKey
 
 # Arguments
 verbose = True # Print out the generated addresses in the console in addition to saving them.
 privates = False # Generate individual private keys and save them WARNING (make sure no one is looking)
-number = 50 # Number of addresses to generate
+number = 10  # Number of addresses to generate (min 10)
 output_dest = "ExportKeys.csv" # Default place for saving the keys
 compare = "" # If you want to look for a certain address put it here
 
@@ -61,7 +61,7 @@ def generate():
       
       out = "{0}, {1}".format(addr4.to_string(), bip44_addr.PublicKey().ToExtended()) # Public addresses not including private
       if (privates): # Include the private keys
-        out = "{0}, {1}, {2}".format(addr4.to_string(), bip44_addr.PublicKey().ToExtended(), bip44_addr.PrivateKey().ToExtended())
+        out = "{0}, {1}, {2}".format(addr4.to_string(), bip44_addr.PublicKey().RawCompressed().ToHex(), bip44_addr.PrivateKey().ToWif())
         #bip44_addr.PublicKey().ToAddress() # This is the regular address (not P2SH(P2WPKH))
       
       # Print extended keys and address
